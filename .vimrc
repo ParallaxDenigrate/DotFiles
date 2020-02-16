@@ -7,7 +7,7 @@ execute pathogen#infect()
 " Plugin Settings
 """"""""""""""""""""""""""""""""
 ""Goyo
-let g:goyo_width = 92
+let g:goyo_width = 90
 let g:goyo_margin_top = 0
 let g:goyo_margin_bottom = 0
 
