@@ -1,0 +1,43 @@
+# i3blocks config file
+
+# Global Properties
+separator_block_width=0
+markup=Pango
+
+# Audio:cmusSong
+[cmusSong]
+command=cmusSong
+interval=15
+signal=5
+
+# Internet
+[int]
+command=int
+interval=60
+
+# System Resources
+[sys]
+command=sys
+interval=60
+
+# Audio:Pulse
+[audio]
+command=audio
+interval=60
+signal=7
+
+# Weather
+[weather]
+command=weather
+interval=3600
+
+# Time
+[date_time]
+command=date_time
+interval=15
+
+# Battery Charge
+[bat]
+command=bat
+interval=60
+color=#ffa500
