@@ -21,8 +21,8 @@ exec_always --no-startup-id wal --vte -i ~/Pictures/dsk.jpg
 bindsym $mod+shift+Escape exec --no-startup-id i3lock -n -u -e -f -i ~/Pictures/lck.png
 
 # Screen Brightness Ctl
-bindsym XF86MonBrightnessUp exec --no-startup-id xrandr --output eDP-1-1 --brightness 1.8; exec --no-startup-id pkill -RTMIN+7 i3blocks # Brightness to 1.8
-bindsym XF86MonBrightnessDown exec --no-startup-id xrandr --output eDP-1-1 --brightness 1; exec --no-startup-id pkill -RTMIN+7 i3blocks # Brightness to 1
+bindsym XF86MonBrightnessUp exec --no-startup-id xrandr --output eDP-1-1 --brightness 1.5; exec --no-startup-id pkill -RTMIN+7 i3blocks # Brightness to 1.8
+bindsym XF86MonBrightnessDown exec --no-startup-id xrandr --output eDP-1-1 --brightness 0.8; exec --no-startup-id pkill -RTMIN+7 i3blocks # Brightness to 1
 
 # Audio Controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%; exec --no-startup-id pkill -RTMIN+7 i3blocks # main audio vol up
