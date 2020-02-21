@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#CPUTEMP=$( sensors -f | grep "id 0" | cut -d " " -f 4 | cut -d "." -f 1 | sed -e "s/+//;s/$/°/" )
+CPULOAD=$( uptime | cut -d "," -f 4 | cut -d ":" -f 2 |  sed -e "s/ //g" | sed -e "s/$/\/4/" | sed -e "s/^/scale=2; /" | sed -e "s/$/*100/" | bc | cut -d "." -f1 | sed -e "s/$/%/" )
+RAMLOAD=$( free | grep Mem | awk '{print $3/$2 * 100.0}' | cut -d "." -f 1 | sed -e "s/$/%/" )
+
+echo "  🖥<b>| 🛠️$RAMLOAD ⚙️$CPULOAD |</b>"

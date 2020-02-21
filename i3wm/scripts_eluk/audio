@@ -1,0 +1,24 @@
+#!/bin/bash
+
+MIXOUT=$( pactl list | grep -A 100 "Sink #0" | grep "Active Port" | cut -d "-" -f 3 | sed -e "s/headphones/🎛/;s/speaker/📢/" )
+MUTE=$( pactl list | grep -A 10 "Sink #0" | grep Mute | cut -d " " -f 2 )
+MIKEMUTE=$( pactl list | grep -A 10 "Source #1" | grep Mute | cut -d " " -f 2 )
+
+if [ $MUTE == "yes" ]
+then
+  VOL=🔇
+elif [ $MUTE == "no" ]
+then
+  VOL=$( pactl list | grep -A 10 "Sink #0" | grep Volume | cut -d "/" -f 2 | sed -e "s/ //g" )
+fi
+
+if [ $MIKEMUTE == "yes" ]
+then
+  MIKE=⛔️
+elif [ $MIKEMUTE == "no" ]
+then
+  MIKE=$( pactl list | grep -A 10 "Source #1" | grep Volume | cut -d "/" -f 2 | sed -e "s/ //g" )
+fi
+
+echo "  🔊<b>| 🎤[<span foreground=\"orange\">$MIKE</span>] $MIXOUT[<span foreground=\"#94ed61\">$VOL</span>] |</b>"
+

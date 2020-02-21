@@ -1,0 +1,24 @@
+#!/bin/bash
+
+PING=$( ping -c 1 -w 3 8.8.8.8 2> /dev/null )
+SUC=$?
+
+if [ $SUC -eq 0 ]
+then
+  IP=$( curl -s icanhazip.com | cut -d "." -f 3-4 | cut -d ":" -f 7-8 )
+  GEOLOC=$( curl -s ipinfo.io/$(curl -s icanhazip.com) | grep -e city | cut -d ":" -f 2 | sed -e "s/ \"//g" | sed -e "s/\"//" | sed -e "s/\,//" | sed -e "s/ //g" )
+  if [ "$GEOLOC" == "Reno" ]
+  then
+    echo "  🛰<b><span background=\"red\">[🚨]| $GEOLOC($IP) |</span></p>"
+  else
+    echo "  🛰<b><span background=\"green\">[🛡]| $GEOLOC($IP) |</span></b>"
+  fi
+elif [ $SUC -eq 1 ]
+then
+  echo "  🛰<b><span background=\"orange\">|🚧|</span></b>"
+elif [ $SUC -eq 2 ]
+then
+  echo "  🛰<b><span background=\"orange\">|❌|</span></b>"
+else
+  echo "  🛰<b><span background=\"orange\">|❓|</span></b>"
+fi
