@@ -1,0 +1,21 @@
+#!/bin/bash
+
+DATA=$( acpi )
+
+STATUS=$( echo $DATA | cut -d " " -f 3 | sed -e "s/,//" )
+CHARGE=$( echo $DATA | cut -d " " -f 4 | sed -e "s/,//;s/%//" )
+
+case $STATUS in
+  Unknown)
+    echo "<b>🔋</b>";;
+  Full)
+    echo "<b>🔋</b>";;
+  Charging)
+    echo "🔋<b>| ⚡$CHARGE% |</b>";;
+  Discharging)
+    echo "🔋<b>| ☢️ $CHARGE% |</b>"
+    if [ $CHARGE -lt "15" ]
+    then
+      notify-send -u critical -t 3000 "🔋🔌 Battery Low: $CHARGE%"
+    fi
+esac

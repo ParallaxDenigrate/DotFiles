@@ -1,0 +1,29 @@
+#!/bin/bash
+
+RUNNING=$(cmus-remote -Q 2>/dev/null) 
+
+PLAYING=$( echo "$RUNNING" | grep "status" | cut -d " " -f 2 | sed -e "s/playing/▶️/;s/paused/⏸/;s/stopped/⏹/" )
+
+if [ -z $RUNNING ]
+then
+  exit
+elif [ $PLAYING == "⏹" ]
+then
+  echo $PLAYING
+else
+  LENGTH=40
+
+  VOL=$( echo "$RUNNING" | grep "vol_left" | cut -d " " -f 3 | sed -e "s/$/%/"  )
+  TITLE=$( echo "$RUNNING" | grep "title" | cut -d " " -f 3- )
+  ARTIST=$( echo "$RUNNING" | grep "artist" | cut -d " " -f 3- | sed -e "s/^/(/;s/$/)/" )
+
+  DISPLAY="📻| $PLAYING[$VOL] $TITLE $ARTIST"
+
+  if [ ${#DISPLAY} -ge ${LENGTH} ]
+  then
+    DISPLAY="$( echo $DISPLAY | cut -c -${LENGTH} | sed -e 's/[[:blank:]]*$//' )..."
+  fi
+
+  echo "<b>$DISPLAY |</b>"
+
+fi

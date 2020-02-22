@@ -1,0 +1,46 @@
+#!/bin/bash
+
+GIBSON=$( ping -c 1 -w 3 192.168.10.42 2>/dev/null )
+GIBUP=$?
+
+if [ $GIBUP -eq 0 ]
+then
+  IP=$( ifconfig | grep broadcast | cut -d " " -f 10 | cut -d "." -f 4 | sed -e "s/^/[/;s/$/]/" )
+  NAS=$( ping -c 1 -w 2 192.168.10.142 2>/dev/null )
+  NASUP=$?
+  if [ $NASUP -eq 0 ]
+  then
+    NASDISP="🗄[142]"
+  elif [ $NASUP -eq 1 ]
+  then
+    NASDISP="🗄[❌]"
+  fi
+  TV=$( ping -c 1 -w 2 192.168.10.146 2>/dev/null )
+  TVUP=$?
+  if [ $TVUP -eq 0 ]
+  then
+    TVDISP="☠️[146]"
+  elif [ $TVUP -eq 1 ]
+  then
+    TVDISP="🗄[❌]"
+  fi
+  DEV=$( ping -c 1 -w 2 192.168.10.150 2>/dev/null )
+  DEVUP=$?
+  if [ $DEVUP -eq 0 ]
+  then
+    DEVDISP="🧰[150]"
+  elif [ $TVUP -eq 1 ]
+  then
+    DEVDISP="🗄[❌]"
+  fi
+elif [ $GIBUP -eq 1 ]
+then
+  GIBDISP=🚧
+elif [ $GIBUP -eq 2 ]
+then
+  GIBDISP=❌
+else
+  GIBDISP=❓
+fi
+
+echo "  📡$IP|$GIBDISP $NASDISP $TVDISP $DEVDISP |"

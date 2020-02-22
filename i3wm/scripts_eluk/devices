@@ -1,0 +1,59 @@
+#!/bin/bash
+KEYLOCATION=$( blkid --uuid=b078e5e2-d01b-4029-8818-40a49cda95c7 2>/dev/null )
+
+if [ $? -eq 2 ]
+then
+  KEYSHOW=F
+else
+  KEYLOCATION=$( echo $KEYLOCATION | cut -d "/" -f 3 )
+  KEYMOUNT="$( df /dev/$KEYLOCATION | grep / | cut -d " " -f 1 )"
+  KEYSHOW=T
+  if [ $KEYMOUNT == "udev" ]
+  then
+    KEYDISP=" 🗝"
+  elif [ $KEYMOUNT == "/dev/$KEYLOCATION" ]
+  then
+    KEYDISP=" <span background='ornage'>🔑</span>"
+  fi
+fi
+
+PHNMNT=$( jmtpfs -l | grep 1 )
+
+if [ -z $PHNMNT ]
+then
+  PHNSHOW=F
+else
+  PHNSHOW=T
+  PHNLOCATION=$( ls /mnt/Dev/Moto )
+  if [ -z $PHNLOCATION ]
+  then
+    PHNDISP=" 📱"
+  else
+    PHNDISP=" <span background='orange'>📲</span>"
+  fi
+fi
+
+KINDLOCATION=$( blkid --uuid=386D-5311 2>/dev/null )
+
+if [ $? -eq 2 ]
+then
+  KINDSHOW=F
+else
+  KINDLOCATION=$( echo $KINDLOCATION | cut -d "/" -f 3 )
+  KINDMOUNT="$( df /dev/$KINDLOCATION | grep / | cut -d " " -f 1 )"
+  KINDSHOW=T
+  if [ $KINDMOUNT == "udev" ]
+  then
+    KINDDISP=" 📗"
+  elif [ $KINDMOUNT == "/dev/$KINDLOCATION" ]
+  then
+    KINDDISP=" <span background='orange'>📙</span>"
+  fi
+fi
+
+if [ $KEYSHOW == F ] && [ $PHNSHOW == F ] && [$KINDSHOW == F ] && [ $PHDSHOW == F ]
+then
+  exit
+else
+  echo "  💼<b>|$KEYDISP$PHNDISP$KINDDISP$PHDDISP |</b>"
+fi

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+DATA=$( curl -s https://wttr.in/RNO?format=1\&u | sed -e "s/+//;s/F//;s/ //" )
+
+echo "  🌎<b>| $DATA</b>"
