@@ -1,0 +1,22 @@
+# Clear screen before ls and format normal ls aliases.
+alias ls="ls --color=auto --group-directories-first"
+alias cls="clear && ls --color=auto --group-directories-first"
+alias lsa="ls -la --color=auto --group-directories-first"
+alias clsa="clear && ls -la --color=auto --group-directories-first"
+
+# Turn on grep colors by default in all versions.
+alias grep="grep --color=auto"
+alias egrep="egrep --color=auto"
+alias fgrep="fgrep --color=auto"
+
+# Mount commands for drives and devices.
+alias mount-moto="jmtpfs /mnt/Dev/Moto && pkill -RTMIN+3 i3blocks"
+alias umount-moto="fusermount -u /mnt/Dev/Moto && pkill -RTMIN+3 i3blocks"
+alias mount-key="sudo mount /mnt/USB/Key && pkill -RTMIN+3 i3blocks"
+alias umount-key="sudo umount /mnt/USB/Key && pkill -RTMIN+3 i3blocks"
+alias mount-kind="sudo mount /mnt/Dev/Kindle && pkill -RTMIN+3 i3blocks" 
+alias umount-kind="sudo umount /mnt/Dev/Kindle && pkill -RTMIN+3 i3blocks"
+
+# Misc.
+alias neofetch="clear && neofetch --ascii ~/Pictures/.ascii" #Have neofetch pull custom ASCII art on each run in ~/Pictures/.ascii. This wasn't working in the config.
+alias scim="sc-im" #Why? Why would you put a hyphen in your program name. I'm mad bro.
