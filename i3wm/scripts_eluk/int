@@ -5,11 +5,11 @@ SUC=$?
 
 if [ $SUC -eq 0 ]
 then
-  IP=$( curl -s icanhazip.com | cut -d "." -f 3-4 | cut -d ":" -f 7-8)
+  IP=$( curl -s ipv4.icanhazip.com | cut -d "." -f 3-4 | cut -d ":" -f 7-8)
   GEOLOC=$( curl -s ipinfo.io/$(curl -s icanhazip.com) | grep -e city | cut -d ":" -f 2 | sed -e "s/ \"//g" | sed -e "s/\"//" | sed -e "s/\,//" )
-  if [ "$GEOLOC" == "Reno" ]
+  if [ "$GEOLOC" == "Canton" ]
   then
-    echo "  🛰<b><span background=\"red\">[🚨]| $GEOLOC($IP) |</span></p>"
+    echo "  🛰<b><span background=\"red\">[🚨]| $GEOLOC($IP) |</span></b>"
   else
     echo "  🛰<b><span background=\"green\">[🛡]| $GEOLOC($IP) |</span></b>"
   fi
