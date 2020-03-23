@@ -5,8 +5,8 @@ SUC=$?
 
 if [ $SUC -eq 0 ]
 then
-  IP=$( curl -s ipv4.icanhazip.com | cut -d "." -f 3-4 | cut -d ":" -f 7-8)
-  GEOLOC=$( curl -s ipinfo.io/$(curl -s icanhazip.com) | grep -e city | cut -d ":" -f 2 | sed -e "s/ \"//g" | sed -e "s/\"//" | sed -e "s/\,//" )
+  IP=$( curl -s --interface tun0 ipv4.icanhazip.com | cut -d "." -f 3-4 | cut -d ":" -f 7-8)
+  GEOLOC=$( curl -s --interface tun0 ipinfo.io/$(curl -s --interface tun0 icanhazip.com) | grep -e city | cut -d ":" -f 2 | sed -e "s/ \"//g" | sed -e "s/\"//" | sed -e "s/\,//" )
   if [ "$GEOLOC" == "Canton" ]
   then
     echo "  🛰<b><span background=\"red\">[🚨]| $GEOLOC($IP) |</span></b>"
