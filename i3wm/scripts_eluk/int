@@ -20,8 +20,9 @@ case $WANPING in
     WANIP=$(curl ipv4.icanhazip.com | cut -d "." -f 3-4)
     ;;
   1 | *)
-    WAN=🚧
+    WAN=📡
     WANCOLOR="red"
+    WANIP=🚧
     ;;
 esac
 
@@ -30,14 +31,15 @@ case $LANPING in
   0)
     LAN=🏡
     LANCOLOR="green"
-#    LANIP=$(ifconfig | grep -e 'enp2s0f1' -e 'wlp3s0' | grep inet | cut -d " " -f 10 | cut -d "." -f 3-4)
+    LANIP=$(ifconfig | grep -A 1 enp2s0f1 | grep inet | cut -d " " -f 10 | cut -d "." -f 3-4)
     ;;
   1 | *)
-    LAN=🚧
+    LAN=🏡
     LANCOLOR="red"
+    LANIP=🚧
     ;;
 esac
 
 LOC=$(curl ipinfo.io/city?token=28c0d7bbfaba3d)
 
-echo "  🛰 <b>| [<span background=\"$VPNCOLOR\">$VPN</span>]($LOC) [<span background=\"$WANCOLOR\">$WAN</span>]($WANIP) [<span background=\"$LANCOLOR\">$LAN</span>]() |</b>"
+echo "  🛰 <b>| [<span background=\"$VPNCOLOR\">$VPN</span>]($LOC) [<span background=\"$WANCOLOR\">$WAN</span>]($WANIP) [<span background=\"$LANCOLOR\">$LAN</span>]($LANIP) |</b>"
