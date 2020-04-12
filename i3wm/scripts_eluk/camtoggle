@@ -1,2 +1,2 @@
 #!/bin/bash
-pkill -f /dev/video || mpv --title="Web Cam" --geometry=-0-28 --autofit=20% /dev/video1
+pkill -f /dev/video || mpv --title="Web Cam" --geometry=-0-28 --autofit=20% /dev/video0
