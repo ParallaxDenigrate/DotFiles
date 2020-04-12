@@ -1,24 +1,43 @@
 #!/bin/bash
 
-PING=$( ping -c 1 -w 3 8.8.8.8 2> /dev/null )
-SUC=$?
+ifconfig | grep -q tun0; VPNTUN=$?
+case $VPNTUN in
+  0)
+    VPN=🛡
+    VPNCOLOR="green"
+    ;;
+  1 | *)
+    VPN=🚨
+    VPNCOLOR="red"
+    ;;
+esac
 
-if [ $SUC -eq 0 ]
-then
-  IP=$( curl -s icanhazip.com | cut -d "." -f 3-4 | cut -d ":" -f 7-8 )
-  GEOLOC=$( curl -s ipinfo.io/$(curl -s icanhazip.com) | grep -e city | cut -d ":" -f 2 | sed -e "s/ \"//g" | sed -e "s/\"//" | sed -e "s/\,//" | sed -e "s/ //g" )
-  if [ "$GEOLOC" == "Reno" ]
-  then
-    echo "  🛰<b><span background=\"red\">[🚨]| $GEOLOC($IP) |</span></p>"
-  else
-    echo "  🛰<b><span background=\"green\">[🛡]| $GEOLOC($IP) |</span></b>"
-  fi
-elif [ $SUC -eq 1 ]
-then
-  echo "  🛰<b><span background=\"orange\">|🚧|</span></b>"
-elif [ $SUC -eq 2 ]
-then
-  echo "  🛰<b><span background=\"orange\">|❌|</span></b>"
-else
-  echo "  🛰<b><span background=\"orange\">|❓|</span></b>"
-fi
+ping -c 2 8.8.8.8 &> /dev/null; WANPING=$?
+case $WANPING in
+  0)
+    WAN=📡
+    WANCOLOR="green"
+    WANIP=$(curl ipv4.icanhazip.com | cut -d "." -f 3-4)
+    ;;
+  1 | *)
+    WAN=🚧
+    WANCOLOR="red"
+    ;;
+esac
+
+ping -c 2 192.168.10.42 &> /dev/null; LANPING=$?
+case $LANPING in
+  0)
+    LAN=🏡
+    LANCOLOR="green"
+#    LANIP=$(ifconfig | grep -e 'enp2s0f1' -e 'wlp3s0' | grep inet | cut -d " " -f 10 | cut -d "." -f 3-4)
+    ;;
+  1 | *)
+    LAN=🚧
+    LANCOLOR="red"
+    ;;
+esac
+
+LOC=$(curl ipinfo.io/city?token=28c0d7bbfaba3d)
+
+echo "  🛰 <b>| [<span background=\"$VPNCOLOR\">$VPN</span>]($LOC) [<span background=\"$WANCOLOR\">$WAN</span>]($WANIP) [<span background=\"$LANCOLOR\">$LAN</span>]() |</b>"
